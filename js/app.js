@@ -119,11 +119,10 @@ function activateSection(sectionId) {
   // デザイン選択済 → コンテンツ入力フォームを表示
   UI.renderContentForm(sectionId, sec, formConfig,
     (data) => { // onSave
-      State.updateSection(currentCode, sectionId, { content: data });
+      State.updateSection(currentCode, sectionId, { content: data, status: 'done' });
       appState = State.load(currentCode);
-      // サイドバーのチェックマークを更新
-      const item = document.querySelector(`.section-item[data-id="${sectionId}"]`);
-      if (item) item.classList.add('section-item--done');
+      // シェル全体を再描画してプレビューボタン有効化を反映
+      renderBuilder();
     },
     () => { // onChangeDesign
       State.updateSection(currentCode, sectionId, { design: null });
