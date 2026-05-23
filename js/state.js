@@ -23,6 +23,7 @@ const State = {
         colorTheme: { main: '#6366f1', sub: '#a5b4fc', accent: '#f59e0b' },
         font: 'noto-sans',
       },
+      globalSettingsDone: false,
       sections: {},       // { [sectionId]: { type, design, content, status } }
       sectionOrder: [],   // ['hero-1', 'mondai-1', ...] 順番を管理
       createdAt: new Date().toISOString(),

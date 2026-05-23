@@ -1,0 +1,136 @@
+<section class="lp-step lp-step--a">
+  <div class="lp-step-a__inner">
+    <h2 class="lp-step-a__heading">{{heading}}</h2>
+    <div class="lp-step-a__track">
+      <!-- ITEM_TEMPLATE -->
+      <div class="lp-step-a__card">
+        <div class="lp-step-a__img-wrap">
+          <img src="{{image}}" alt="{{title}}" class="lp-step-a__img" onerror="this.closest('.lp-step-a__img-wrap').classList.add('lp-step-a__img-wrap--empty')">
+        </div>
+        <div class="lp-step-a__badge">STEP</div>
+        <div class="lp-step-a__content">
+          <p class="lp-step-a__title">{{title}}</p>
+          <p class="lp-step-a__body">{{body}}</p>
+        </div>
+      </div>
+      <!-- /ITEM_TEMPLATE -->
+    </div>
+  </div>
+</section>
+
+<style>
+.lp-step--a {
+  background: #fafafa;
+  padding: 80px 24px;
+  overflow: hidden;
+}
+.lp-step-a__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.lp-step-a__heading {
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 900;
+  color: var(--lp-color-text);
+  text-align: center;
+  margin-bottom: 56px;
+  line-height: 1.5;
+  position: relative;
+  padding-bottom: 20px;
+}
+.lp-step-a__heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 3px;
+  background: var(--lp-color-main);
+  border-radius: 2px;
+}
+.lp-step-a__track {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+}
+.lp-step-a__track::before {
+  content: '';
+  position: absolute;
+  top: 64px;
+  left: calc(50px + (100% / var(--step-count, 3)) * 0.15);
+  right: calc(50px + (100% / var(--step-count, 3)) * 0.15);
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--lp-color-main) 0, var(--lp-color-main) 8px, transparent 8px, transparent 16px);
+  z-index: 0;
+}
+.lp-step-a__card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0 16px 32px;
+  text-align: center;
+}
+.lp-step-a__img-wrap {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--lp-color-main);
+  background: #ede9fc;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+.lp-step-a__img-wrap--empty {
+  background: linear-gradient(135deg, var(--lp-color-accent) 0%, var(--lp-color-main) 100%);
+}
+.lp-step-a__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lp-step-a__badge {
+  display: inline-block;
+  background: var(--lp-color-main);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+.lp-step-a__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lp-step-a__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--lp-color-text);
+  line-height: 1.5;
+}
+.lp-step-a__body {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8;
+}
+@media (max-width: 768px) {
+  .lp-step--a { padding: 60px 16px; }
+  .lp-step-a__track {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .lp-step-a__track::before { display: none; }
+  .lp-step-a__card { flex-direction: row; align-items: flex-start; text-align: left; gap: 20px; }
+  .lp-step-a__img-wrap { width: 80px; height: 80px; flex-shrink: 0; margin-bottom: 0; }
+  .lp-step-a__badge { margin-bottom: 8px; }
+}
+</style>

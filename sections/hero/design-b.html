@@ -1,0 +1,86 @@
+<section class="lp-hero lp-hero--b">
+  <div class="lp-hero-b__deco lp-hero-b__deco--1"></div>
+  <div class="lp-hero-b__deco lp-hero-b__deco--2"></div>
+  <div class="lp-hero-b__inner">
+    <p class="lp-hero-b__sub">{{subheading}}</p>
+    <h1 class="lp-hero-b__catch">{{catchcopy}}</h1>
+    <div class="lp-hero-b__line"></div>
+    <a href="{{ctaUrl}}" class="lp-btn lp-hero-b__cta">{{ctaText}}</a>
+  </div>
+</section>
+
+<style>
+.lp-hero--b {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--lp-color-main) 0%, var(--lp-color-accent) 100%);
+}
+.lp-hero-b__deco {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  pointer-events: none;
+}
+.lp-hero-b__deco--1 {
+  width: 600px; height: 600px;
+  top: -200px; right: -150px;
+}
+.lp-hero-b__deco--2 {
+  width: 400px; height: 400px;
+  bottom: -120px; left: -100px;
+}
+.lp-hero-b__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 60px 24px;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+.lp-hero-b__sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.16em;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.lp-hero-b__catch {
+  font-size: clamp(30px, 5.5vw, 56px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.45;
+  margin-bottom: 32px;
+  white-space: pre-wrap;
+}
+.lp-hero-b__line {
+  width: 60px;
+  height: 3px;
+  background: rgba(255,255,255,0.6);
+  margin: 0 auto 40px;
+  border-radius: 2px;
+}
+.lp-hero-b__cta {
+  background: #fff;
+  color: var(--lp-color-main);
+  font-size: 17px;
+  padding: 18px 56px;
+  border-radius: 50px;
+  font-weight: 700;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.lp-hero-b__cta:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  .lp-hero-b__sub { font-size: 13px; }
+  .lp-hero-b__cta { padding: 16px 40px; font-size: 15px; }
+}
+</style>

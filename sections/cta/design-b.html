@@ -1,0 +1,103 @@
+<section class="lp-cta lp-cta--b">
+  <div class="lp-cta-b__bg" style="background-image: url('{{bgImage}}');"></div>
+  <div class="lp-cta-b__overlay"></div>
+  <div class="lp-cta-b__inner">
+    <h2 class="lp-cta-b__heading">{{heading}}</h2>
+    <div class="lp-cta-b__tokuten">
+      <div class="lp-cta-b__tokuten-label">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 1l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.1 4.4 12l.7-4L2.2 5.2l4-.6z" fill="#fff"/>
+        </svg>
+        今だけ特典
+      </div>
+      <p class="lp-cta-b__tokuten-text">{{tokuten}}</p>
+    </div>
+    <a href="{{ctaUrl}}" class="lp-btn lp-cta-b__btn">{{ctaText}}</a>
+  </div>
+</section>
+
+<style>
+.lp-cta--b {
+  position: relative;
+  padding: 100px 24px;
+  text-align: center;
+  overflow: hidden;
+}
+.lp-cta-b__bg {
+  position: absolute;
+  inset: -10%;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--lp-color-main);
+}
+.lp-cta-b__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+.lp-cta-b__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+.lp-cta-b__heading {
+  font-size: clamp(22px, 4vw, 40px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.lp-cta-b__tokuten {
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 16px;
+  padding: 28px 40px;
+  width: 100%;
+  max-width: 500px;
+  backdrop-filter: blur(8px);
+}
+.lp-cta-b__tokuten-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--lp-color-main);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.lp-cta-b__tokuten-text {
+  font-size: 17px;
+  color: #fff;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.lp-cta-b__btn {
+  background: #fff;
+  color: var(--lp-color-main);
+  font-size: 18px;
+  font-weight: 700;
+  padding: 20px 72px;
+  border-radius: 50px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.lp-cta-b__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.3);
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  .lp-cta--b { padding: 72px 16px; }
+  .lp-cta-b__tokuten { padding: 20px 24px; }
+  .lp-cta-b__btn { padding: 18px 48px; font-size: 16px; }
+}
+</style>

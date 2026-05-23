@@ -1,0 +1,107 @@
+<section class="lp-voice lp-voice--a">
+  <div class="lp-voice-a__inner">
+    <h2 class="lp-voice-a__heading">{{heading}}</h2>
+    <div class="lp-voice-a__grid">
+      <!-- ITEM_TEMPLATE -->
+      <div class="lp-voice-a__card">
+        <div class="lp-voice-a__photo-wrap">
+          <img src="{{photo}}" alt="{{name}}" class="lp-voice-a__photo" onerror="this.closest('.lp-voice-a__photo-wrap').classList.add('lp-voice-a__photo-wrap--empty')">
+        </div>
+        <p class="lp-voice-a__name">{{name}}</p>
+        <div class="lp-voice-a__stars">
+          <svg width="80" height="14" viewBox="0 0 80 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 1l1.5 4.6H14L9.9 8.5l1.5 4.6L7 10.3 2.6 13.1l1.5-4.6L0 5.6h5.5z" fill="var(--lp-color-main)"/>
+            <path d="M23 1l1.5 4.6H30L25.9 8.5l1.5 4.6L23 10.3l-4.4 2.8 1.5-4.6L16 5.6h5.5z" fill="var(--lp-color-main)"/>
+            <path d="M39 1l1.5 4.6H46L41.9 8.5l1.5 4.6L39 10.3l-4.4 2.8 1.5-4.6L32 5.6h5.5z" fill="var(--lp-color-main)"/>
+            <path d="M55 1l1.5 4.6H62L57.9 8.5l1.5 4.6L55 10.3l-4.4 2.8 1.5-4.6L48 5.6h5.5z" fill="var(--lp-color-main)"/>
+            <path d="M71 1l1.5 4.6H78L73.9 8.5l1.5 4.6L71 10.3l-4.4 2.8 1.5-4.6L64 5.6h5.5z" fill="var(--lp-color-main)"/>
+          </svg>
+        </div>
+        <p class="lp-voice-a__comment">{{comment}}</p>
+      </div>
+      <!-- /ITEM_TEMPLATE -->
+    </div>
+  </div>
+</section>
+
+<style>
+.lp-voice--a {
+  background: #fafafa;
+  padding: 80px 24px;
+}
+.lp-voice-a__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.lp-voice-a__heading {
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 900;
+  color: var(--lp-color-text);
+  text-align: center;
+  margin-bottom: 56px;
+  line-height: 1.5;
+  position: relative;
+  padding-bottom: 20px;
+}
+.lp-voice-a__heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 3px;
+  background: var(--lp-color-main);
+  border-radius: 2px;
+}
+.lp-voice-a__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+.lp-voice-a__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.lp-voice-a__photo-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--lp-color-main);
+  background: #ede9fc;
+  flex-shrink: 0;
+}
+.lp-voice-a__photo-wrap--empty {
+  background: linear-gradient(135deg, var(--lp-color-accent) 0%, var(--lp-color-main) 100%);
+}
+.lp-voice-a__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lp-voice-a__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--lp-color-text);
+}
+.lp-voice-a__stars { line-height: 1; }
+.lp-voice-a__comment {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.9;
+  text-align: left;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .lp-voice--a { padding: 60px 16px; }
+  .lp-voice-a__grid { grid-template-columns: 1fr; }
+}
+</style>
