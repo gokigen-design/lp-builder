@@ -39,7 +39,27 @@ const Generator = {
     }
 
     const content = sec.content || {};
-    return Generator._fillTemplate(template, sec.type, content);
+    let html = Generator._fillTemplate(template, sec.type, content);
+
+    // 編集用属性を除去
+    html = html
+      .replace(/\s*data-lp-image="[^"]*"/g, '')
+      .replace(/\s*data-lp-field="[^"]*"/g, '')
+      .replace(/\s*data-lp-url="[^"]*"/g, '')
+      .replace(/\s*data-lp-item="[^"]*"/g, '')
+      .replace(/\s*data-item="\d+"/g, '')
+      .replace(/\s*data-item-idx="\d+"/g, '')
+      .replace(/\s*data-value="[^"]*"/g, '')
+      .replace(/\s*data-empty="[^"]*"/g, '')
+      .replace(/class="lp-editable[^"]*"/g, '')
+      .replace(/class="lp-remove-item"/g, '')
+      .replace(/class="lp-add-item"/g, '')
+      .replace(/class="lp-img-overlay[^"]*"/g, '')
+      .replace(/class="lp-img-chip[^"]*"/g, '')
+      .replace(/class="lp-item-wrap[^"]*"/g, '')
+      .replace(/class="lp-items-container[^"]*"/g, '');
+
+    return html;
   },
 
   // --------------------------------------------------------

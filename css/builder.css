@@ -92,7 +92,8 @@ body {
 .btn-preview.enabled:hover { opacity: 0.85; }
 .btn-secondary { background: transparent; border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); padding: 8px 14px; font-size: 12px; transition: border-color 0.15s; }
 .btn-secondary:hover { border-color: var(--color-main); }
-.builder-content { flex: 1; padding: 32px 40px; max-width: 800px; margin: 0 auto; width: 100%; }
+.builder-content { flex: 1; padding: 32px 40px; max-width: 800px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+.builder-content:has(.inline-editor) { padding: 0; max-width: none; margin: 0; }
 .empty-state { text-align: center; padding: 80px 20px; color: var(--color-text-muted); }
 .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: var(--color-text); }
 
@@ -158,3 +159,193 @@ body {
 
 /* ドラッグゴースト */
 .section-item--ghost { opacity: 0.4; background: rgba(99,102,241,0.2) !important; }
+
+/* ===== インライン編集（WYSIWYG）===== */
+.inline-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+.inline-editor-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex-shrink: 0;
+}
+.ie-section-name { font-weight: 700; font-size: 14px; }
+.ie-design-name { color: var(--color-text-muted); font-size: 13px; margin-left: 6px; }
+.inline-editor-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 6px 16px;
+  background: rgba(99,102,241,0.08);
+  flex-shrink: 0;
+}
+.inline-editor-canvas {
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+  color: #1a1a2e;
+  position: relative;
+}
+.inline-editor-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex-shrink: 0;
+}
+.inline-editor-footer .btn-save-section {
+  width: 100%;
+  background: var(--color-main);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.inline-editor-footer .btn-save-section:hover { opacity: 0.85; }
+
+/* 編集可能フィールド */
+.lp-editable {
+  cursor: text;
+  outline: 2px dashed transparent;
+  outline-offset: 2px;
+  border-radius: 3px;
+  transition: outline-color 0.15s, background 0.15s;
+  min-width: 24px;
+  display: inline;
+  white-space: pre-wrap;
+}
+.lp-editable--block {
+  display: block;
+  min-height: 2em;
+}
+.lp-editable:hover { outline-color: rgba(99,102,241,0.45); }
+.lp-editable:focus {
+  outline-color: #6366f1;
+  background: rgba(99,102,241,0.07);
+  outline-style: solid;
+}
+.lp-editable[data-empty="true"]::before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  pointer-events: none;
+}
+
+/* 画像フィールドオーバーレイ */
+.lp-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  pointer-events: none;
+}
+[data-lp-image]:hover .lp-img-overlay {
+  background: rgba(0,0,0,0.35);
+}
+.lp-img-overlay span {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(0,0,0,0.5);
+  padding: 6px 14px;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+[data-lp-image]:hover .lp-img-overlay span { opacity: 1; }
+
+/* アイテム行（追加・削除） */
+.lp-item-wrap { position: relative; }
+.lp-remove-item {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(239,68,68,0.85);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.lp-item-wrap:hover .lp-remove-item { opacity: 1; }
+.lp-add-item {
+  display: block;
+  margin: 12px auto;
+  background: transparent;
+  border: 2px dashed #6366f1;
+  color: #6366f1;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.lp-add-item:hover { background: rgba(99,102,241,0.08); }
+
+/* 画像チップ（アイテム内画像） */
+.lp-img-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  background: #e5e7eb;
+  border: 2px dashed #6366f1;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #6366f1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.lp-img-chip:hover { background: rgba(99,102,241,0.1); }
+
+/* URL フォーム */
+.inline-url-fields {
+  padding: 12px 20px;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+.inline-url-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.inline-url-row label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  min-width: 100px;
+}
+.lp-url-input {
+  flex: 1;
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 7px 12px;
+  color: var(--color-text);
+  font-size: 13px;
+}
+.lp-url-input:focus { border-color: var(--color-main); outline: none; }

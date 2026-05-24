@@ -116,8 +116,8 @@ function activateSection(sectionId) {
     return;
   }
 
-  // デザイン選択済 → コンテンツ入力フォームを表示
-  UI.renderContentForm(sectionId, sec, formConfig,
+  // デザイン選択済 → インライン編集（WYSIWYG）を表示
+  UI.renderInlineEditor(sectionId, sec, formConfig,
     (data) => { // onSave
       State.updateSection(currentCode, sectionId, { content: data, status: 'done' });
       appState = State.load(currentCode);

@@ -297,6 +297,342 @@ const UI = {
     });
   },
 
+  // ===== インライン編集（WYSIWYG） =====
+  async renderInlineEditor(sectionId, sec, formConfig, onSave, onChangeDesign) {
+    const content = document.getElementById('builder-content');
+    const sectionConfig = SECTIONS_CONFIG[sec.type];
+    const currentContent = sec.content || {};
+
+    // テンプレートHTML取得
+    const templatePath = `sections/${sec.type}/design-${sec.design}.html`;
+    let rawHtml = '';
+    try {
+      const res = await fetch(templatePath);
+      if (!res.ok) throw new Error('fetch failed');
+      rawHtml = await res.text();
+    } catch(e) {
+      content.innerHTML = `<div class="empty-state"><p>テンプレートの読み込みに失敗しました</p></div>`;
+      return;
+    }
+
+    const fieldMap = {};
+    formConfig.fields.forEach(f => { fieldMap[f.key] = f; });
+
+    // --- ITEM_TEMPLATE 展開 ---
+    let html = rawHtml.replace(
+      /<!--\s*ITEM_TEMPLATE\s*-->([\s\S]*?)<!--\s*\/ITEM_TEMPLATE\s*-->/g,
+      (match, itemTpl) => {
+        const itemsField = formConfig.fields.find(f => f.type === 'items');
+        if (!itemsField) return '';
+        const items = Array.isArray(currentContent.items) ? [...currentContent.items] : [];
+        const min = itemsField.min || 1;
+        while (items.length < min) items.push(itemsField.subfields ? {} : '');
+
+        const rows = items.map((item, idx) => {
+          let row = itemTpl.replace(/\{\{(\w+)\}\}/g, (m, key) => {
+            const sf = itemsField.subfields?.find(s => s.key === key);
+            if (!sf) {
+              // シンプルテキスト（mondai）
+              const val = (typeof item === 'string' ? item : (item.text || ''));
+              const ph = itemsField.placeholder || '';
+              return `<span class="lp-editable" contenteditable="true" data-item="${idx}" data-lp-field="text" data-placeholder="${ph}">${val}</span>`;
+            }
+            if (sf.type === 'image') {
+              const val = item[key] || '';
+              return `<span class="lp-img-chip" data-item="${idx}" data-lp-field="${key}" data-value="${val}">${val ? '<img src="'+val+'" style="width:48px;height:48px;object-fit:cover;border-radius:4px;">' : '画像追加'}</span>`;
+            }
+            const val = item[key] || '';
+            const ph = sf.placeholder || '';
+            const isMulti = sf.type === 'textarea';
+            const tag = isMulti ? 'div' : 'span';
+            return `<${tag} class="lp-editable${isMulti ? ' lp-editable--block' : ''}" contenteditable="true" data-item="${idx}" data-lp-field="${key}" data-placeholder="${ph}">${val}</${tag}>`;
+          });
+          return `<div class="lp-item-wrap" data-item-idx="${idx}">${row}<button class="lp-remove-item" data-idx="${idx}" title="この項目を削除">×</button></div>`;
+        }).join('');
+
+        const maxCount = itemsField.max || 6;
+        return `<div class="lp-items-container">${rows}<button class="lp-add-item" data-max="${maxCount}">＋ 追加</button></div>`;
+      }
+    );
+
+    // --- style属性内の画像トークン (background-image: url('{{key}}')) ---
+    html = html.replace(
+      /(<[^>]*?)\sstyle="([^"]*?url\(['"]?)\{\{(\w+)\}\}(['"]?\)[^"]*?)"/g,
+      (match, tag, styleA, key, styleB) => {
+        const val = currentContent[key] || '';
+        return `${tag} data-lp-image="${key}" style="${styleA}${val}${styleB}"`;
+      }
+    );
+
+    // --- href属性内の URL トークン ---
+    html = html.replace(/href=["']\{\{(\w+)\}\}["']/g, (match, key) => {
+      const val = currentContent[key] || '#';
+      return `href="${val}" data-lp-url="${key}"`;
+    });
+
+    // --- src属性内の画像トークン ---
+    html = html.replace(/src=["']\{\{(\w+)\}\}["']/g, (match, key) => {
+      const val = currentContent[key] || '';
+      return `src="${val}" data-lp-image="${key}"`;
+    });
+
+    // --- 残りのテキストトークン ---
+    html = html.replace(/\{\{(\w+)\}\}/g, (match, key) => {
+      const field = fieldMap[key];
+      if (!field) return '';
+      const val = currentContent[key] || '';
+      const ph = field.placeholder || '';
+      if (field.type === 'image') {
+        // インラインで使われている画像フィールド（例: 背景画像がstyle以外）
+        const style = val ? `background:url('${val}') center/cover no-repeat;` : 'background:#ddd;';
+        return `<div class="lp-img-placeholder" data-lp-image="${key}" style="${style};min-height:120px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="lp-img-label">${val ? '画像を変更' : '画像を追加'}</span></div>`;
+      }
+      if (field.type === 'url') {
+        const val2 = currentContent[key] || '';
+        return `<span class="lp-editable lp-editable--url" contenteditable="true" data-lp-field="${key}" data-placeholder="${ph}">${val2}</span>`;
+      }
+      const isMulti = field.type === 'textarea';
+      const tag = isMulti ? 'div' : 'span';
+      return `<${tag} class="lp-editable${isMulti ? ' lp-editable--block' : ''}" contenteditable="true" data-lp-field="${key}" data-placeholder="${ph}">${val}</${tag}>`;
+    });
+
+    // URL フィールド（href以外）を下部フォームとして表示
+    const urlFields = formConfig.fields.filter(f => f.type === 'url');
+    const urlFormHtml = urlFields.length ? `
+      <div class="inline-url-fields">
+        ${urlFields.map(f => `
+          <div class="inline-url-row">
+            <label>${f.label}</label>
+            <input type="url" class="lp-url-input" data-lp-field="${f.key}"
+              value="${currentContent[f.key] || ''}" placeholder="${f.placeholder}">
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    content.innerHTML = `
+      <div class="inline-editor">
+        <div class="inline-editor-topbar">
+          <div class="inline-editor-info">
+            <span class="ie-section-name">${sectionConfig.label}</span>
+            <span class="ie-design-name">— ${sectionConfig.designs[sec.design]?.label || ''}</span>
+          </div>
+          <button class="btn-change-design btn-secondary" id="ie-btn-change">デザインを変える</button>
+        </div>
+        <div class="inline-editor-hint">テキストをクリックして直接編集 / 画像エリアをクリックしてアップロード</div>
+        <div class="inline-editor-canvas" id="ie-canvas">
+          ${html}
+        </div>
+        ${urlFormHtml}
+        <div class="inline-editor-footer">
+          <button class="btn-save-section" id="ie-btn-save">保存して完了</button>
+        </div>
+      </div>
+    `;
+
+    const canvas = document.getElementById('ie-canvas');
+
+    // プレースホルダー表示（空の時）
+    canvas.querySelectorAll('[data-placeholder]').forEach(el => {
+      if (!el.textContent.trim()) {
+        el.setAttribute('data-empty', 'true');
+      }
+      el.addEventListener('focus', () => el.removeAttribute('data-empty'));
+      el.addEventListener('blur', () => {
+        if (!el.textContent.trim()) el.setAttribute('data-empty', 'true');
+      });
+    });
+
+    // 画像フィールド（data-lp-image）のクリックハンドラ
+    canvas.querySelectorAll('[data-lp-image]').forEach(el => {
+      const key = el.dataset.lpImage;
+      el.style.cursor = 'pointer';
+      el.title = '画像を変更するにはクリック';
+      // ホバーオーバーレイ追加
+      if (!el.querySelector('.lp-img-overlay')) {
+        const overlay = document.createElement('div');
+        overlay.className = 'lp-img-overlay';
+        overlay.innerHTML = `<span>${currentContent[key] ? '画像を変更' : '画像を追加'}</span>`;
+        el.style.position = el.style.position || 'relative';
+        el.appendChild(overlay);
+      }
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = (ev) => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            UI._resizeImageDataUrl(re.target.result, 1200, (dataUrl) => {
+              el.dataset.value = dataUrl;
+              // imgタグの場合
+              const img = el.tagName === 'IMG' ? el : el.querySelector('img');
+              if (img) { img.src = dataUrl; }
+              // background-imageの場合
+              if (el.style.backgroundImage !== undefined && el.dataset.lpImage) {
+                const oldStyle = el.getAttribute('style') || '';
+                const newStyle = oldStyle.replace(/url\([^)]*\)/, `url('${dataUrl}')`);
+                el.setAttribute('style', newStyle || `background-image:url('${dataUrl}')`);
+              }
+              const overlay = el.querySelector('.lp-img-overlay span');
+              if (overlay) overlay.textContent = '画像を変更';
+            });
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      });
+    });
+
+    // アイテム追加・削除
+    canvas.querySelectorAll('.lp-add-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const container = btn.closest('.lp-items-container');
+        const rows = container.querySelectorAll('.lp-item-wrap');
+        const max = parseInt(btn.dataset.max) || 6;
+        if (rows.length >= max) { btn.textContent = `最大${max}個まで`; return; }
+        const lastRow = rows[rows.length - 1];
+        if (!lastRow) return;
+        const newRow = lastRow.cloneNode(true);
+        const newIdx = rows.length;
+        newRow.dataset.itemIdx = newIdx;
+        newRow.querySelectorAll('[data-item]').forEach(el => {
+          el.dataset.item = newIdx;
+          el.textContent = '';
+          el.removeAttribute('data-empty');
+          el.removeAttribute('src');
+        });
+        newRow.querySelectorAll('[data-lp-image]').forEach(img => {
+          img.dataset.value = '';
+          if (img.tagName === 'IMG') img.src = '';
+        });
+        const removeBtn = newRow.querySelector('.lp-remove-item');
+        if (removeBtn) {
+          removeBtn.dataset.idx = newIdx;
+          removeBtn.addEventListener('click', () => {
+            newRow.remove();
+            UI._reindexItems(container);
+          });
+        }
+        container.insertBefore(newRow, btn);
+        UI._reindexItems(container);
+      });
+    });
+
+    canvas.querySelectorAll('.lp-remove-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('.lp-item-wrap');
+        const container = row?.closest('.lp-items-container');
+        row?.remove();
+        if (container) UI._reindexItems(container);
+      });
+    });
+
+    // 画像チップ（items内の画像フィールド）
+    canvas.querySelectorAll('.lp-img-chip').forEach(chip => {
+      chip.style.cursor = 'pointer';
+      chip.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = (ev) => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            UI._resizeImageDataUrl(re.target.result, 1200, (dataUrl) => {
+              chip.dataset.value = dataUrl;
+              chip.innerHTML = `<img src="${dataUrl}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;">`;
+            });
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      });
+    });
+
+    // 保存
+    document.getElementById('ie-btn-save').addEventListener('click', () => {
+      const data = UI._collectInlineData(canvas, formConfig);
+      // URL フィールドをフォームから収集
+      content.querySelectorAll('.lp-url-input').forEach(input => {
+        data[input.dataset.lpField] = input.value.trim();
+      });
+      // href経由のURLも収集
+      canvas.querySelectorAll('[data-lp-url]').forEach(el => {
+        const key = el.dataset.lpUrl;
+        // URLフォームがあればそちらを優先
+        if (data[key] === undefined) data[key] = el.getAttribute('href') || '';
+      });
+      onSave(data);
+    });
+
+    document.getElementById('ie-btn-change').addEventListener('click', onChangeDesign);
+  },
+
+  _reindexItems(container) {
+    container.querySelectorAll('.lp-item-wrap').forEach((row, i) => {
+      row.dataset.itemIdx = i;
+      row.querySelectorAll('[data-item]').forEach(el => el.dataset.item = i);
+    });
+  },
+
+  _resizeImageDataUrl(dataUrl, maxWidth, callback) {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxWidth / img.width);
+      const w = Math.floor(img.width * scale);
+      const h = Math.floor(img.height * scale);
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', 0.85));
+    };
+    img.src = dataUrl;
+  },
+
+  _collectInlineData(canvas, formConfig) {
+    const data = {};
+    formConfig.fields.forEach(field => {
+      if (field.type === 'items') {
+        const rows = canvas.querySelectorAll('.lp-item-wrap');
+        if (field.subfields) {
+          data.items = Array.from(rows).map(row => {
+            const item = {};
+            field.subfields.forEach(sf => {
+              if (sf.type === 'image') {
+                const chip = row.querySelector(`.lp-img-chip[data-lp-field="${sf.key}"]`);
+                item[sf.key] = chip?.dataset.value || chip?.querySelector('img')?.src || '';
+              } else {
+                const el = row.querySelector(`[contenteditable][data-lp-field="${sf.key}"]`);
+                item[sf.key] = el?.textContent?.trim() || '';
+              }
+            });
+            return item;
+          }).filter(item => Object.values(item).some(v => v));
+        } else {
+          // シンプルテキストリスト（mondai）
+          data.items = Array.from(rows).map(row => {
+            const el = row.querySelector(`[contenteditable][data-lp-field="text"]`);
+            return el?.textContent?.trim() || '';
+          }).filter(Boolean);
+        }
+      } else if (field.type === 'image') {
+        const el = canvas.querySelector(`[data-lp-image="${field.key}"]`);
+        data[field.key] = el?.dataset.value || '';
+      } else if (field.type === 'url') {
+        // URL はフォームから取得するのでここでは skip (callerが処理)
+      } else {
+        const el = canvas.querySelector(`[contenteditable][data-lp-field="${field.key}"]`);
+        data[field.key] = el?.textContent?.trim() || '';
+      }
+    });
+    return data;
+  },
+
   // ===== コンテンツ入力フォーム =====
   renderContentForm(sectionId, sec, formConfig, onSave, onChangeDesign) {
     const content = document.getElementById('builder-content');
