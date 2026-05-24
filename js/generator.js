@@ -86,7 +86,11 @@ const Generator = {
       (match, itemTpl) => {
         const items = content.items;
         if (!Array.isArray(items) || items.length === 0) return '';
-        return items.map(item => Generator._replaceTokens(itemTpl, item)).join('\n');
+        return items.map(item => {
+          // 文字列の場合は {text: item} に変換（mondai等シンプルリスト用）
+          const itemData = typeof item === 'string' ? { text: item } : item;
+          return Generator._replaceTokens(itemTpl, itemData);
+        }).join('\n');
       }
     );
   },
