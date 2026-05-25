@@ -31,37 +31,25 @@
 <style>
 .lp-voice--b {
   background: var(--lp-color-bg);
-  padding: 80px 24px;
+  padding: 120px 40px;
 }
 .lp-voice-b__inner {
   max-width: 1100px;
   margin: 0 auto;
 }
 .lp-voice-b__heading {
-  font-size: clamp(22px, 4vw, 36px);
+  font-size: clamp(36px, 5vw, 58px);
   font-weight: 900;
   color: var(--lp-color-text);
   text-align: center;
-  margin-bottom: 56px;
-  line-height: 1.5;
-  position: relative;
-  padding-bottom: 20px;
-}
-.lp-voice-b__heading::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 48px;
-  height: 3px;
-  background: var(--lp-color-main);
-  border-radius: 2px;
+  margin-bottom: 64px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 .lp-voice-b__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 28px;
+  gap: 24px;
 }
 .lp-voice-b__bubble-wrap {
   display: flex;
@@ -75,7 +63,7 @@
   padding: 16px;
   width: 100%;
   max-width: 280px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .lp-voice-b__phone-header {
   display: flex;
@@ -93,7 +81,7 @@
 .lp-voice-b__phone-dot:nth-child(2) { background: #febc2e; }
 .lp-voice-b__phone-dot:last-child { background: #28c840; }
 .lp-voice-b__chat {
-  background: #e8e8e8;
+  background: #fff;
   border-radius: 14px;
   padding: 16px 12px;
   min-height: 100px;
@@ -109,11 +97,11 @@
 }
 .lp-voice-b__avatar img { width: 100%; height: 100%; object-fit: cover; }
 .lp-voice-b__bubble {
-  background: #fff;
+  background: #f0f0f0;
   border-radius: 0 14px 14px 14px;
   padding: 12px 14px;
   max-width: calc(100% - 44px);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .lp-voice-b__bubble-text {
   font-size: 13px;
@@ -127,7 +115,7 @@
   text-align: center;
 }
 @media (max-width: 768px) {
-  .lp-voice--b { padding: 60px 16px; }
+  .lp-voice--b { padding: 72px 24px; }
   .lp-voice-b__grid { grid-template-columns: 1fr; }
 }
 </style>

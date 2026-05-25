@@ -19,7 +19,7 @@
 <style>
 .lp-cta--b {
   position: relative;
-  padding: 100px 24px;
+  padding: 120px 40px;
   text-align: center;
   overflow: hidden;
 }
@@ -47,20 +47,19 @@
   gap: 36px;
 }
 .lp-cta-b__heading {
-  font-size: clamp(22px, 4vw, 40px);
+  font-size: clamp(36px, 5vw, 58px);
   font-weight: 900;
   color: #fff;
-  line-height: 1.5;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   white-space: pre-wrap;
 }
 .lp-cta-b__tokuten {
-  background: rgba(255,255,255,0.12);
-  border: 2px solid rgba(255,255,255,0.4);
-  border-radius: 16px;
+  background: #fff;
+  border-radius: 4px;
   padding: 28px 40px;
   width: 100%;
   max-width: 500px;
-  backdrop-filter: blur(8px);
 }
 .lp-cta-b__tokuten-label {
   display: inline-flex;
@@ -72,32 +71,33 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   padding: 5px 16px;
-  border-radius: 20px;
+  border-radius: 2px;
   margin-bottom: 16px;
 }
 .lp-cta-b__tokuten-text {
   font-size: 17px;
-  color: #fff;
+  color: #374151;
   line-height: 1.8;
   white-space: pre-wrap;
 }
 .lp-cta-b__btn {
   background: #fff;
   color: var(--lp-color-main);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   padding: 20px 72px;
-  border-radius: 50px;
-  box-shadow: 0 6px 28px rgba(0,0,0,0.25);
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
   transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.04em;
 }
 .lp-cta-b__btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
   opacity: 1;
 }
 @media (max-width: 768px) {
-  .lp-cta--b { padding: 72px 16px; }
+  .lp-cta--b { padding: 72px 24px; }
   .lp-cta-b__tokuten { padding: 20px 24px; }
   .lp-cta-b__btn { padding: 18px 48px; font-size: 16px; }
 }

@@ -29,7 +29,7 @@
 .lp-hero-a__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.38);
   pointer-events: none;
 }
 .lp-hero-a__inner {
@@ -42,25 +42,26 @@
   margin: 0 auto;
 }
 .lp-hero-a__sub {
-  font-size: 16px;
+  font-size: clamp(16px, 2vw, 22px);
   color: rgba(255,255,255,0.85);
   letter-spacing: 0.12em;
   margin-bottom: 20px;
   font-weight: 400;
 }
 .lp-hero-a__catch {
-  font-size: clamp(32px, 6vw, 60px);
+  font-size: clamp(42px, 7vw, 88px);
   font-weight: 900;
   color: #fff;
-  line-height: 1.4;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
   margin-bottom: 40px;
   text-shadow: 0 2px 12px rgba(0,0,0,0.4);
   white-space: pre-wrap;
 }
 .lp-hero-a__cta {
-  font-size: 18px;
-  padding: 18px 60px;
-  border-radius: 50px;
+  font-size: 17px;
+  padding: 20px 64px;
+  border-radius: 4px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.3);
 }
 @media (max-width: 768px) {

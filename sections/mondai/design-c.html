@@ -19,33 +19,21 @@
 
 <style>
 .lp-mondai--c {
-  background: linear-gradient(180deg, #f8f7ff 0%, var(--lp-color-bg) 100%);
-  padding: 80px 24px;
+  background: var(--lp-color-bg);
+  padding: 120px 40px;
 }
 .lp-mondai-c__inner {
   max-width: 960px;
   margin: 0 auto;
 }
 .lp-mondai-c__heading {
-  font-size: clamp(22px, 4vw, 36px);
+  font-size: clamp(36px, 5vw, 58px);
   font-weight: 900;
   color: var(--lp-color-text);
   text-align: center;
-  margin-bottom: 56px;
-  line-height: 1.5;
-  position: relative;
-  padding-bottom: 20px;
-}
-.lp-mondai-c__heading::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 48px;
-  height: 3px;
-  background: var(--lp-color-main);
-  border-radius: 2px;
+  margin-bottom: 64px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 .lp-mondai-c__layout {
   display: grid;
@@ -86,14 +74,13 @@
 }
 .lp-mondai-c__card {
   background: #fff;
-  border: 2px solid var(--lp-color-main);
-  border-radius: 12px;
-  padding: 16px 16px 16px 44px;
+  border: 1px solid #e8e8e4;
+  border-radius: 4px;
+  padding: 20px 24px;
   font-size: 15px;
   font-weight: 600;
   color: var(--lp-color-text);
   line-height: 1.6;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   position: relative;
 }
 .lp-mondai-c__card::before {
@@ -118,7 +105,7 @@
   background: var(--lp-color-main);
 }
 @media (max-width: 768px) {
-  .lp-mondai--c { padding: 60px 16px; }
+  .lp-mondai--c { padding: 72px 24px; }
   .lp-mondai-c__layout {
     grid-template-columns: 1fr;
   }
