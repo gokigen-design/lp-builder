@@ -272,6 +272,9 @@ const UI = {
     let chosen = selectedDesign;
     const decideBtn = document.getElementById('btn-decide');
 
+    // sectionConfig から type キーを逆引き
+    const type = Object.keys(SECTIONS_CONFIG).find(k => SECTIONS_CONFIG[k] === sectionConfig) || '';
+
     Object.entries(sectionConfig.designs).forEach(([key, design]) => {
       const card = document.createElement('div');
       card.className = 'design-card' + (key === chosen ? ' selected' : '');
