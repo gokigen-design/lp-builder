@@ -89,7 +89,13 @@ const Generator = {
         return items.map(item => {
           // 文字列の場合は {text: item} に変換（mondai等シンプルリスト用）
           const itemData = typeof item === 'string' ? { text: item } : item;
-          return Generator._replaceTokens(itemTpl, itemData);
+          // itemData にないトークンは残す（ctaUrl 等トップレベルフィールドは第2パスで処理）
+          return itemTpl.replace(/\{\{(\w+)\}\}/g, (m, key) => {
+            if (!(key in itemData)) return m;
+            const val = itemData[key];
+            if (val === undefined || val === null || val === '') return '';
+            return Generator._escapeHtml(String(val));
+          });
         }).join('\n');
       }
     );

@@ -342,6 +342,16 @@ const UI = {
           row = row.replace(/(\w+)="([^"]*?)\{\{(\w+)\}\}([^"]*?)"/g, (m, attr, pre, key, post) => {
             if (attr === 'src') return m; // handled in pass 2
             const sf = itemsField.subfields?.find(s => s.key === key);
+            if (!sf && itemsField.subfields) {
+              // subfield に存在しない → トップレベルフィールド（例: ctaUrl）をフォールバック
+              const topField = fieldMap[key];
+              if (!topField) return m; // 完全に不明なトークンはそのまま残す
+              const val = currentContent[key] || '';
+              if (attr === 'href') {
+                return `${attr}="${pre}${val || '#'}${post}" data-lp-url="${key}"`;
+              }
+              return `${attr}="${pre}${val}${post}"`;
+            }
             const val = typeof item === 'string' ? (key === 'text' ? item : '') : (item[key] || '');
             const ph = sf?.placeholder || '';
             return `${attr}="${pre}${val || ph}${post}"`;
@@ -366,7 +376,15 @@ const UI = {
           row = row.replace(/\{\{(\w+)\}\}/g, (m, key) => {
             const sf = itemsField.subfields?.find(s => s.key === key);
             if (!sf) {
-              // シンプルテキスト（mondai）
+              if (itemsField.subfields) {
+                // subfield に存在しない → トップレベルフィールド（例: ctaUrl）
+                // href は Pass 1 で処理済みのはず。残っていれば値を直接展開する
+                const topField = fieldMap[key];
+                if (!topField) return ''; // 完全不明
+                const val = currentContent[key] || '';
+                return topField.type === 'url' ? (val || '#') : val;
+              }
+              // subfields なし → シンプルテキスト（mondai）
               const val = (typeof item === 'string' ? item : (item.text || ''));
               const ph = itemsField.placeholder || '';
               return `<span class="lp-editable" contenteditable="true" data-item="${idx}" data-lp-field="text" data-placeholder="${ph}">${val}</span>`;

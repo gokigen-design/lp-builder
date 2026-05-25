@@ -29,6 +29,7 @@ const SECTIONS_CONFIG = {
     icon: '①',
     designs: {
       a: { label: '横並び＋画像カード型', description: 'STEPバッジ＋写真＋矢印' },
+      b: { label: '横方向矢印型', description: '帯矢印が横につながるフロー' },
       c: { label: '縦フロー型', description: 'Step.1 | タイトル＋説明・縦並び' },
     }
   },
