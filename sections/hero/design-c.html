@@ -1,0 +1,83 @@
+<section class="lp-hero lp-hero--c">
+  <div class="lp-hero-c__inner">
+    <div class="lp-hero-c__text">
+      <h1 class="lp-hero-c__catch" data-lp-field="catchcopy">{{catchcopy}}</h1>
+      <p class="lp-hero-c__sub" data-lp-field="subheading">{{subheading}}</p>
+      <a href="{{ctaUrl}}" class="lp-btn lp-hero-c__btn" data-lp-url="ctaUrl" data-lp-field="ctaText">{{ctaText}}</a>
+    </div>
+    <div class="lp-hero-c__img-wrap">
+      <img src="{{bgImage}}" alt="" class="lp-hero-c__img" data-lp-image="bgImage" onerror="this.style.display='none'">
+    </div>
+  </div>
+</section>
+
+<style>
+.lp-hero--c {
+  background: #f8f8f6;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+.lp-hero-c__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 80px 60px;
+  gap: 80px;
+}
+.lp-hero-c__text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.lp-hero-c__catch {
+  font-size: clamp(40px, 5.5vw, 72px);
+  font-weight: 900;
+  color: var(--lp-color-text);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.lp-hero-c__sub {
+  font-size: clamp(15px, 1.8vw, 18px);
+  color: #555;
+  line-height: 1.9;
+}
+.lp-hero-c__btn {
+  align-self: flex-start;
+  background: var(--lp-color-main);
+  color: #fff;
+  padding: 18px 52px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  display: inline-block;
+}
+.lp-hero-c__btn:hover { opacity: 0.85; }
+.lp-hero-c__img-wrap {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  background: #e5e7eb;
+}
+.lp-hero-c__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 768px) {
+  .lp-hero-c__inner {
+    grid-template-columns: 1fr;
+    padding: 60px 24px;
+    gap: 40px;
+  }
+  .lp-hero-c__img-wrap { aspect-ratio: 4/3; }
+  .lp-hero-c__btn { align-self: stretch; text-align: center; }
+}
+</style>

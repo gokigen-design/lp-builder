@@ -3,15 +3,14 @@
     <h2 class="lp-step-c__heading">{{heading}}</h2>
     <div class="lp-step-c__list">
       <!-- ITEM_TEMPLATE -->
-      <div class="lp-step-c__row">
-        <div class="lp-step-c__num-col">
-          <div class="lp-step-c__num"></div>
-          <div class="lp-step-c__line"></div>
+      <div class="lp-step-c__card">
+        <div class="lp-step-c__badge">
+          <span class="lp-step-c__badge-label">STEP</span>
+          <span class="lp-step-c__badge-num"></span>
         </div>
-        <div class="lp-step-c__content">
-          <p class="lp-step-c__label">Step.</p>
+        <div class="lp-step-c__body">
           <p class="lp-step-c__title">{{title}}</p>
-          <p class="lp-step-c__body">{{body}}</p>
+          <p class="lp-step-c__desc">{{body}}</p>
         </div>
       </div>
       <!-- /ITEM_TEMPLATE -->
@@ -25,7 +24,7 @@
   padding: 120px 40px;
 }
 .lp-step-c__inner {
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
 }
 .lp-step-c__heading {
@@ -37,73 +36,79 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
-.lp-step-c__list { counter-reset: step-counter; }
-.lp-step-c__row {
-  display: flex;
-  gap: 28px;
-  counter-increment: step-counter;
-  position: relative;
-  margin-bottom: 0;
+.lp-step-c__heading::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--lp-color-main);
+  margin: 16px auto 0;
+  border-radius: 2px;
 }
-.lp-step-c__row:last-child .lp-step-c__line { display: none; }
-.lp-step-c__num-col {
+.lp-step-c__list {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-  width: 56px;
+  gap: 12px;
+  counter-reset: step-counter;
 }
-.lp-step-c__num {
-  width: 56px;
-  height: 56px;
+.lp-step-c__card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 24px 32px;
+  border: 1px solid #e8e8e4;
+  border-radius: 8px;
+  counter-increment: step-counter;
+  background: #fff;
+}
+.lp-step-c__badge {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: var(--lp-color-main);
   color: #fff;
-  font-size: 20px;
-  font-weight: 900;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  line-height: 1.2;
 }
-.lp-step-c__num::before {
-  content: counter(step-counter);
-}
-.lp-step-c__line {
-  flex: 1;
-  width: 2px;
-  background: repeating-linear-gradient(180deg, var(--lp-color-main) 0, var(--lp-color-main) 6px, transparent 6px, transparent 12px);
-  margin: 8px 0;
-  min-height: 40px;
-}
-.lp-step-c__content {
-  padding-bottom: 44px;
-  flex: 1;
-}
-.lp-step-c__label {
-  font-size: 12px;
+.lp-step-c__badge-label {
+  font-size: 10px;
   font-weight: 700;
-  color: var(--lp-color-main);
-  letter-spacing: 0.1em;
-  margin-bottom: 6px;
-  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
 }
-.lp-step-c__title {
+.lp-step-c__badge-num {
   font-size: 20px;
-  font-weight: 700;
-  color: var(--lp-color-text);
-  line-height: 1.45;
-  margin-bottom: 12px;
+  font-weight: 900;
+}
+.lp-step-c__badge-num::before {
+  content: counter(step-counter, decimal-leading-zero);
 }
 .lp-step-c__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lp-step-c__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--lp-color-main);
+  line-height: 1.5;
+}
+.lp-step-c__desc {
   font-size: 15px;
   color: #555;
   line-height: 1.9;
 }
 @media (max-width: 768px) {
   .lp-step--c { padding: 72px 24px; }
-  .lp-step-c__num { width: 44px; height: 44px; font-size: 17px; }
-  .lp-step-c__num-col { width: 44px; }
-  .lp-step-c__title { font-size: 17px; }
+  .lp-step-c__card { padding: 20px 20px; gap: 20px; }
+  .lp-step-c__badge { width: 52px; height: 52px; }
+  .lp-step-c__badge-num { font-size: 17px; }
+  .lp-step-c__title { font-size: 15px; }
 }
 </style>

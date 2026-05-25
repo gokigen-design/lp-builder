@@ -14,6 +14,7 @@ const SECTIONS_CONFIG = {
     designs: {
       a: { label: 'フルスクリーン画像', description: '背景に写真・パララックスあり' },
       b: { label: 'グラデーション', description: '写真なしでもOK・洗練された背景' },
+      c: { label: '左テキスト・右写真', description: '明るい背景に写真＋左寄せテキスト' },
     }
   },
   mondai: {
@@ -109,6 +110,16 @@ const DESIGN_THUMBS = {
     <rect x="75" y="88" width="90" height="26" rx="13" fill="#f59e0b"/>
     <rect x="92" y="95" width="56" height="12" rx="6" fill="#fff" opacity="0.9"/>
   </svg>`,
+
+  'hero-c': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="140" fill="#f8f8f6"/>
+  <rect x="16" y="24" width="88" height="14" rx="7" fill="#1a1a2e" opacity="0.85"/>
+  <rect x="16" y="44" width="72" height="8" rx="4" fill="#9ca3af"/>
+  <rect x="16" y="57" width="80" height="8" rx="4" fill="#9ca3af"/>
+  <rect x="16" y="74" width="72" height="22" rx="4" fill="#6366f1"/>
+  <rect x="126" y="12" width="102" height="116" rx="8" fill="#e0e7ff"/>
+  <rect x="138" y="24" width="78" height="92" rx="4" fill="#c7d2fe" opacity="0.6"/>
+</svg>`,
 
   'hero-b': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
     <defs><linearGradient id="hb-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
