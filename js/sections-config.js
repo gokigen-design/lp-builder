@@ -48,10 +48,35 @@ const SECTIONS_CONFIG = {
       b: { label: '特典付き CTA', description: '「今だけ特典」ボックス付き' },
     }
   },
+  content: {
+    label: 'テキスト＋画像',
+    icon: '画',
+    designs: {
+      a: { label: '右画像', description: 'テキスト左・画像右・白背景' },
+      b: { label: '左画像', description: '画像左・テキスト右・白背景' },
+      c: { label: '右画像＋背景（明）', description: '背景画像あり・明るいトーン' },
+      d: { label: '右画像＋背景（暗）', description: '背景画像あり・暗いトーン' },
+    }
+  },
+  card: {
+    label: 'カード',
+    icon: '三',
+    designs: {
+      a: { label: '上画像3列', description: '画像上・タイトル・テキスト・ボタン' },
+      b: { label: '上画像2列', description: '2カラム・スマホ横並び' },
+    }
+  },
+  faq: {
+    label: 'よくある質問',
+    icon: 'Q',
+    designs: {
+      a: { label: 'Q&Aリスト', description: 'Q（青）A（薄色）交互リスト' },
+    }
+  },
 };
 
 // サイドバーに表示する順番（追加可能セクションの一覧）
-const SECTION_TYPES_ORDER = ['hero', 'midashi', 'mondai', 'step', 'voice', 'cta'];
+const SECTION_TYPES_ORDER = ['hero', 'midashi', 'content', 'card', 'mondai', 'step', 'voice', 'faq', 'cta'];
 
 // デザインピッカー用サムネイルSVG（レイアウトスケッチ）
 const DESIGN_THUMBS = {
@@ -242,5 +267,133 @@ const DESIGN_THUMBS = {
     <rect x="42" y="76" width="154" height="10" rx="5" fill="#e5e7eb"/>
     <rect x="52" y="104" width="136" height="30" rx="15" fill="#f59e0b"/>
     <rect x="70" y="113" width="100" height="12" rx="6" fill="#fff" opacity="0.9"/>
+  </svg>`,
+
+  'content-a': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#fff"/>
+    <rect x="12" y="16" width="100" height="12" rx="6" fill="#c7d2fe"/>
+    <rect x="12" y="34" width="80" height="9" rx="4" fill="#e0e7ff"/>
+    <rect x="12" y="50" width="98" height="7" rx="3" fill="#f3f4f6"/>
+    <rect x="12" y="62" width="88" height="7" rx="3" fill="#f3f4f6"/>
+    <rect x="12" y="74" width="94" height="7" rx="3" fill="#f3f4f6"/>
+    <rect x="12" y="90" width="72" height="22" rx="11" fill="#6366f1"/>
+    <rect x="128" y="16" width="100" height="100" rx="10" fill="#e0e7ff"/>
+    <rect x="140" y="28" width="76" height="76" rx="6" fill="#c7d2fe" opacity="0.5"/>
+  </svg>`,
+
+  'content-b': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#fff"/>
+    <rect x="12" y="16" width="100" height="100" rx="10" fill="#e0e7ff"/>
+    <rect x="24" y="28" width="76" height="76" rx="6" fill="#c7d2fe" opacity="0.5"/>
+    <rect x="128" y="16" width="100" height="12" rx="6" fill="#c7d2fe"/>
+    <rect x="128" y="34" width="80" height="9" rx="4" fill="#e0e7ff"/>
+    <rect x="128" y="50" width="98" height="7" rx="3" fill="#f3f4f6"/>
+    <rect x="128" y="62" width="88" height="7" rx="3" fill="#f3f4f6"/>
+    <rect x="128" y="74" width="94" height="7" rx="3" fill="#f3f4f6"/>
+    <rect x="128" y="90" width="72" height="22" rx="11" fill="#6366f1"/>
+  </svg>`,
+
+  'content-c': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="cc-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a5b4fc"/><stop offset="100%" stop-color="#ddd6fe"/></linearGradient></defs>
+    <rect width="240" height="140" fill="url(#cc-g)" opacity="0.4"/>
+    <rect width="240" height="140" fill="#fff" opacity="0.7"/>
+    <rect x="12" y="16" width="100" height="11" rx="5" fill="#6366f1" opacity="0.8"/>
+    <rect x="12" y="33" width="78" height="8" rx="4" fill="#6366f1" opacity="0.5"/>
+    <rect x="12" y="48" width="96" height="6" rx="3" fill="#9ca3af"/>
+    <rect x="12" y="60" width="86" height="6" rx="3" fill="#9ca3af"/>
+    <rect x="12" y="72" width="92" height="6" rx="3" fill="#9ca3af"/>
+    <rect x="12" y="87" width="70" height="20" rx="10" fill="#6366f1"/>
+    <rect x="128" y="16" width="100" height="100" rx="10" fill="#e0e7ff"/>
+    <rect x="140" y="28" width="76" height="76" rx="6" fill="#c7d2fe" opacity="0.6"/>
+  </svg>`,
+
+  'content-d': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#1e1b4b"/>
+    <rect width="240" height="140" fill="#000" opacity="0.35"/>
+    <rect x="12" y="16" width="100" height="11" rx="5" fill="#fff" opacity="0.92"/>
+    <rect x="12" y="33" width="78" height="8" rx="4" fill="#fff" opacity="0.6"/>
+    <rect x="12" y="48" width="96" height="6" rx="3" fill="#fff" opacity="0.45"/>
+    <rect x="12" y="60" width="86" height="6" rx="3" fill="#fff" opacity="0.45"/>
+    <rect x="12" y="72" width="92" height="6" rx="3" fill="#fff" opacity="0.45"/>
+    <rect x="12" y="87" width="70" height="20" rx="10" fill="#f59e0b"/>
+    <rect x="128" y="16" width="100" height="100" rx="10" fill="#fff" opacity="0.12"/>
+    <rect x="140" y="28" width="76" height="76" rx="6" fill="#fff" opacity="0.07"/>
+  </svg>`,
+
+  'card-a': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#f9fafb"/>
+    <rect x="80" y="6" width="80" height="10" rx="5" fill="#e5e7eb"/>
+    <rect x="8" y="24" width="68" height="106" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <rect x="8" y="24" width="68" height="44" rx="8" fill="#e0e7ff"/>
+    <rect x="8" y="56" width="68" height="12" fill="#e0e7ff"/>
+    <rect x="16" y="78" width="52" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    <rect x="16" y="92" width="52" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="16" y="102" width="44" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="20" y="114" width="44" height="10" rx="5" fill="#6366f1"/>
+    <rect x="86" y="24" width="68" height="106" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <rect x="86" y="24" width="68" height="44" rx="8" fill="#e0e7ff"/>
+    <rect x="86" y="56" width="68" height="12" fill="#e0e7ff"/>
+    <rect x="94" y="78" width="52" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    <rect x="94" y="92" width="52" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="94" y="102" width="44" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="98" y="114" width="44" height="10" rx="5" fill="#6366f1"/>
+    <rect x="164" y="24" width="68" height="106" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <rect x="164" y="24" width="68" height="44" rx="8" fill="#e0e7ff"/>
+    <rect x="164" y="56" width="68" height="12" fill="#e0e7ff"/>
+    <rect x="172" y="78" width="52" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    <rect x="172" y="92" width="52" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="172" y="102" width="44" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="176" y="114" width="44" height="10" rx="5" fill="#6366f1"/>
+  </svg>`,
+
+  'card-b': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#f9fafb"/>
+    <rect x="80" y="6" width="80" height="10" rx="5" fill="#e5e7eb"/>
+    <rect x="8" y="24" width="106" height="106" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <rect x="8" y="24" width="106" height="56" rx="8" fill="#e0e7ff"/>
+    <rect x="8" y="68" width="106" height="12" fill="#e0e7ff"/>
+    <rect x="18" y="92" width="78" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    <rect x="18" y="105" width="78" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="30" y="118" width="60" height="10" rx="5" fill="#6366f1"/>
+    <rect x="126" y="24" width="106" height="106" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <rect x="126" y="24" width="106" height="56" rx="8" fill="#e0e7ff"/>
+    <rect x="126" y="68" width="106" height="12" fill="#e0e7ff"/>
+    <rect x="136" y="92" width="78" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    <rect x="136" y="105" width="78" height="6" rx="3" fill="#e5e7eb"/>
+    <rect x="148" y="118" width="60" height="10" rx="5" fill="#6366f1"/>
+  </svg>`,
+
+  'faq-a': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#fff"/>
+    <rect x="80" y="6" width="80" height="10" rx="5" fill="#e5e7eb"/>
+    <rect x="12" y="26" width="216" height="1" fill="#e5e7eb"/>
+    <rect x="12" y="30" width="26" height="18" rx="6" fill="#6366f1"/>
+    <rect x="44" y="34" width="144" height="9" rx="4" fill="#374151"/>
+    <rect x="12" y="55" width="26" height="18" rx="6" fill="#a5b4fc"/>
+    <rect x="44" y="59" width="156" height="7" rx="3" fill="#9ca3af"/>
+    <rect x="44" y="70" width="120" height="7" rx="3" fill="#9ca3af"/>
+    <rect x="12" y="84" width="216" height="1" fill="#e5e7eb"/>
+    <rect x="12" y="88" width="26" height="18" rx="6" fill="#6366f1"/>
+    <rect x="44" y="92" width="130" height="9" rx="4" fill="#374151"/>
+    <rect x="12" y="113" width="26" height="18" rx="6" fill="#a5b4fc"/>
+    <rect x="44" y="117" width="150" height="7" rx="3" fill="#9ca3af"/>
+    <rect x="12" y="138" width="216" height="1" fill="#e5e7eb"/>
+  </svg>`,
+
+  'step-b': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#fafafa"/>
+    <rect x="80" y="8" width="80" height="10" rx="5" fill="#e5e7eb"/>
+    <polygon points="8,38 66,38 78,70 66,102 8,102" fill="#6366f1"/>
+    <rect x="18" y="55" width="38" height="7" rx="3" fill="#fff" opacity="0.8"/>
+    <rect x="18" y="67" width="32" height="7" rx="3" fill="#fff" opacity="0.6"/>
+    <polygon points="70,38 128,38 140,70 128,102 70,102 82,70" fill="#818cf8"/>
+    <rect x="82" y="55" width="38" height="7" rx="3" fill="#fff" opacity="0.8"/>
+    <rect x="82" y="67" width="32" height="7" rx="3" fill="#fff" opacity="0.6"/>
+    <polygon points="132,38 190,38 202,70 190,102 132,102 144,70" fill="#a5b4fc"/>
+    <rect x="144" y="55" width="38" height="7" rx="3" fill="#fff" opacity="0.8"/>
+    <rect x="144" y="67" width="32" height="7" rx="3" fill="#fff" opacity="0.6"/>
+    <polygon points="194,38 232,38 232,102 194,102 206,70" fill="#c7d2fe"/>
+    <rect x="200" y="55" width="24" height="7" rx="3" fill="#6366f1" opacity="0.7"/>
+    <rect x="200" y="67" width="20" height="7" rx="3" fill="#6366f1" opacity="0.5"/>
   </svg>`,
 };

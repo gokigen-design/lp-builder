@@ -1,0 +1,102 @@
+<section class="lp-content lp-content--b">
+  <div class="lp-content-b__inner">
+    <div class="lp-content-b__grid">
+      <div class="lp-content-b__img-wrap">
+        <img src="{{image}}" alt="{{heading}}" class="lp-content-b__img" onerror="this.closest('.lp-content-b__img-wrap').classList.add('lp-content-b__img-wrap--empty')">
+      </div>
+      <div class="lp-content-b__text">
+        <h2 class="lp-content-b__heading">{{heading}}</h2>
+        <p class="lp-content-b__subheading">{{subheading}}</p>
+        <p class="lp-content-b__body">{{body}}</p>
+        <a href="{{ctaUrl}}" class="lp-btn lp-content-b__btn">{{ctaText}}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.lp-content--b {
+  background: #fff;
+  padding: 80px 24px;
+}
+.lp-content-b__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.lp-content-b__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.lp-content-b__text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.lp-content-b__heading {
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 900;
+  color: var(--lp-color-text);
+  line-height: 1.4;
+  position: relative;
+  padding-bottom: 20px;
+}
+.lp-content-b__heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 3px;
+  background: var(--lp-color-main);
+  border-radius: 2px;
+}
+.lp-content-b__subheading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--lp-color-main);
+  line-height: 1.6;
+}
+.lp-content-b__body {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.9;
+}
+.lp-content-b__btn {
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--lp-color-main);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 36px;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.lp-content-b__btn:hover { opacity: 0.82; }
+.lp-content-b__img-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: #f3f4f6;
+}
+.lp-content-b__img-wrap--empty {
+  background: linear-gradient(135deg, var(--lp-color-accent) 0%, var(--lp-color-main) 100%);
+}
+.lp-content-b__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 768px) {
+  .lp-content--b { padding: 60px 16px; }
+  .lp-content-b__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .lp-content-b__btn { align-self: stretch; text-align: center; }
+}
+</style>

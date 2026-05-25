@@ -76,4 +76,50 @@ const FORMS_CONFIG = {
       { key: 'ctaUrl',  label: '申し込みURL',                     type: 'url',      placeholder: 'https://...' },
     ]
   },
+  content: {
+    fields: [
+      { key: 'heading',    label: '見出し',                             type: 'text',     placeholder: '例：サービスの特徴' },
+      { key: 'subheading', label: 'サブ見出し',                         type: 'text',     placeholder: '例：3つのこだわり' },
+      { key: 'body',       label: '本文テキスト',                       type: 'textarea', placeholder: '例：サービスの詳細説明文をここに入力してください。' },
+      { key: 'ctaText',    label: 'ボタンテキスト',                     type: 'text',     placeholder: '例：詳しく見る' },
+      { key: 'ctaUrl',     label: 'ボタンURL',                          type: 'url',      placeholder: 'https://...' },
+      { key: 'image',      label: '画像',                               type: 'image',    placeholder: '' },
+      { key: 'bgImage',    label: '背景画像（背景ありデザインのみ）',   type: 'image',    placeholder: '' },
+    ]
+  },
+  card: {
+    fields: [
+      { key: 'heading', label: '見出し', type: 'text', placeholder: '例：サービスの特徴' },
+      { key: 'ctaUrl',  label: 'カードのボタンURL（全カード共通）', type: 'url', placeholder: 'https://...' },
+      {
+        key: 'items',
+        label: 'カード（2〜6個）',
+        type: 'items',
+        min: 2,
+        max: 6,
+        subfields: [
+          { key: 'image',   label: '画像',       type: 'image',    placeholder: '' },
+          { key: 'title',   label: '小見出し',   type: 'text',     placeholder: '例：特徴1' },
+          { key: 'body',    label: '説明文',     type: 'textarea', placeholder: '例：詳細テキスト' },
+          { key: 'ctaText', label: 'ボタン文字', type: 'text',     placeholder: '例：詳しく見る' },
+        ]
+      },
+    ]
+  },
+  faq: {
+    fields: [
+      { key: 'heading', label: '見出し', type: 'text', placeholder: '例：よくあるご質問' },
+      {
+        key: 'items',
+        label: 'Q&A（2〜10個）',
+        type: 'items',
+        min: 2,
+        max: 10,
+        subfields: [
+          { key: 'question', label: '質問（Q）', type: 'text',     placeholder: '例：申し込み後はどうなりますか？' },
+          { key: 'answer',   label: '回答（A）',  type: 'textarea', placeholder: '例：お申し込み後、24時間以内にメールをお送りします。' },
+        ]
+      },
+    ]
+  },
 };

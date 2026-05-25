@@ -1,0 +1,104 @@
+<section class="lp-step lp-step--b">
+  <div class="lp-step-b__inner">
+    <h2 class="lp-step-b__heading">{{heading}}</h2>
+    <div class="lp-step-b__track">
+      <!-- ITEM_TEMPLATE -->
+      <div class="lp-step-b__item">
+        <span class="lp-step-b__num"></span>
+        <p class="lp-step-b__text">{{text}}</p>
+      </div>
+      <!-- /ITEM_TEMPLATE -->
+    </div>
+  </div>
+</section>
+
+<style>
+.lp-step--b {
+  background: #fafafa;
+  padding: 80px 24px;
+}
+.lp-step-b__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.lp-step-b__heading {
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 900;
+  color: var(--lp-color-text);
+  text-align: center;
+  margin-bottom: 48px;
+  line-height: 1.5;
+  position: relative;
+  padding-bottom: 20px;
+}
+.lp-step-b__heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 3px;
+  background: var(--lp-color-main);
+  border-radius: 2px;
+}
+.lp-step-b__track {
+  display: flex;
+  align-items: stretch;
+  counter-reset: step-b-counter;
+}
+.lp-step-b__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 32px 28px 48px;
+  background: var(--lp-color-main);
+  color: #fff;
+  position: relative;
+  text-align: center;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%);
+  counter-increment: step-b-counter;
+}
+.lp-step-b__item:first-child {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+  padding-left: 28px;
+}
+.lp-step-b__item:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 16px 50%);
+}
+.lp-step-b__item:first-child:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 28px;
+}
+.lp-step-b__num {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0.75;
+}
+.lp-step-b__num::before {
+  content: 'STEP ' counter(step-b-counter);
+}
+.lp-step-b__text {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .lp-step--b { padding: 60px 16px; }
+  .lp-step-b__track {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .lp-step-b__item {
+    clip-path: none !important;
+    padding: 20px 24px;
+    border-radius: 8px;
+  }
+  .lp-step-b__item:first-child { padding-left: 24px; }
+}
+</style>
