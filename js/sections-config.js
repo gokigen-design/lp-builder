@@ -1,5 +1,13 @@
 // js/sections-config.js
 const SECTIONS_CONFIG = {
+  midashi: {
+    label: '見出し',
+    icon: 'H',
+    designs: {
+      a: { label: '中央線', description: '左右に線が伸びるシンプルな見出し' },
+      b: { label: '矢印', description: '色帯＋下向き矢印のアクセント' },
+    }
+  },
   hero: {
     label: 'ヒーロー（FV）',
     icon: '★',
@@ -43,10 +51,27 @@ const SECTIONS_CONFIG = {
 };
 
 // サイドバーに表示する順番（追加可能セクションの一覧）
-const SECTION_TYPES_ORDER = ['hero', 'mondai', 'step', 'voice', 'cta'];
+const SECTION_TYPES_ORDER = ['hero', 'midashi', 'mondai', 'step', 'voice', 'cta'];
 
 // デザインピッカー用サムネイルSVG（レイアウトスケッチ）
 const DESIGN_THUMBS = {
+
+  'midashi-a': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#fff"/>
+    <line x1="16" y1="65" x2="74" y2="65" stroke="#a5b4fc" stroke-width="2"/>
+    <rect x="82" y="55" width="76" height="22" rx="11" fill="#1e1e3f" opacity="0.85"/>
+    <rect x="90" y="62" width="60" height="8" rx="4" fill="#fff" opacity="0.9"/>
+    <line x1="166" y1="65" x2="224" y2="65" stroke="#a5b4fc" stroke-width="2"/>
+    <rect x="70" y="88" width="100" height="8" rx="4" fill="#e5e7eb"/>
+  </svg>`,
+
+  'midashi-b': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="140" fill="#fff"/>
+    <rect x="0" y="20" width="240" height="54" fill="#6366f1"/>
+    <rect x="56" y="36" width="128" height="16" rx="8" fill="#fff" opacity="0.92"/>
+    <polygon points="102,74 138,74 120,94" fill="#6366f1"/>
+    <rect x="70" y="102" width="100" height="8" rx="4" fill="#e5e7eb"/>
+  </svg>`,
 
   'hero-a': `<svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
     <defs><linearGradient id="ha-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#374151"/><stop offset="100%" stop-color="#111827"/></linearGradient></defs>

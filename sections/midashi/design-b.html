@@ -1,0 +1,50 @@
+<section class="lp-midashi lp-midashi--b">
+  <div class="lp-midashi-b__inner">
+    <div class="lp-midashi-b__box">
+      <h2 class="lp-midashi-b__heading">{{heading}}</h2>
+    </div>
+    <div class="lp-midashi-b__arrow"></div>
+    <p class="lp-midashi-b__sub">{{subheading}}</p>
+  </div>
+</section>
+
+<style>
+.lp-midashi--b {
+  padding: 0 0 32px;
+  background: var(--lp-color-bg);
+  text-align: center;
+}
+.lp-midashi-b__inner {
+  max-width: 100%;
+}
+.lp-midashi-b__box {
+  background: var(--lp-color-main);
+  padding: 28px 40px;
+  width: 100%;
+}
+.lp-midashi-b__heading {
+  font-size: clamp(20px, 3.5vw, 32px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.4;
+}
+.lp-midashi-b__arrow {
+  width: 0;
+  height: 0;
+  border-left: 36px solid transparent;
+  border-right: 36px solid transparent;
+  border-top: 28px solid var(--lp-color-main);
+  margin: 0 auto;
+}
+.lp-midashi-b__sub {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.75;
+  padding: 0 24px;
+}
+@media (max-width: 768px) {
+  .lp-midashi-b__box { padding: 22px 20px; }
+  .lp-midashi-b__heading { font-size: 20px; }
+}
+</style>

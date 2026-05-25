@@ -2,6 +2,12 @@
 // type: 'text' | 'textarea' | 'image' | 'url' | 'items'
 // items = 繰り返し項目（悩みリスト・ステップ・声など）
 const FORMS_CONFIG = {
+  midashi: {
+    fields: [
+      { key: 'heading',    label: '見出しテキスト',           type: 'text', placeholder: '例：サービスの特徴' },
+      { key: 'subheading', label: 'サブテキスト（任意・空でもOK）', type: 'text', placeholder: '例：3つのこだわりでサポートします' },
+    ]
+  },
   hero: {
     fields: [
       { key: 'catchcopy',  label: 'キャッチコピー（大見出し）', type: 'text',     placeholder: '例：あなたのビジネスを加速する' },

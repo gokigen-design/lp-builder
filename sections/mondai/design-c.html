@@ -2,20 +2,17 @@
   <div class="lp-mondai-c__inner">
     <h2 class="lp-mondai-c__heading">{{heading}}</h2>
     <div class="lp-mondai-c__layout">
-      <div class="lp-mondai-c__cards lp-mondai-c__cards--left" id="mondai-cards-left"></div>
       <div class="lp-mondai-c__person">
         <div class="lp-mondai-c__person-frame">
           <img src="{{personImage}}" alt="人物写真" class="lp-mondai-c__person-img" onerror="this.style.display='none'">
           <div class="lp-mondai-c__person-fallback"></div>
         </div>
       </div>
-      <div class="lp-mondai-c__cards lp-mondai-c__cards--right" id="mondai-cards-right"></div>
-    </div>
-    <!-- アイテムデータをJSで左右に振り分け -->
-    <div class="lp-mondai-c__items-data" style="display:none">
-      <!-- ITEM_TEMPLATE -->
-      <span class="lp-mondai-c__item-raw">{{text}}</span>
-      <!-- /ITEM_TEMPLATE -->
+      <div class="lp-mondai-c__cards">
+        <!-- ITEM_TEMPLATE -->
+        <div class="lp-mondai-c__card">{{text}}</div>
+        <!-- /ITEM_TEMPLATE -->
+      </div>
     </div>
   </div>
 </section>
@@ -26,7 +23,7 @@
   padding: 80px 24px;
 }
 .lp-mondai-c__inner {
-  max-width: 1000px;
+  max-width: 960px;
   margin: 0 auto;
 }
 .lp-mondai-c__heading {
@@ -52,55 +49,18 @@
 }
 .lp-mondai-c__layout {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 24px;
-}
-.lp-mondai-c__cards {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.lp-mondai-c__card {
-  background: #fff;
-  border: 2px solid var(--lp-color-main);
-  border-radius: 12px;
-  padding: 16px 20px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--lp-color-text);
-  line-height: 1.6;
-  position: relative;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-}
-.lp-mondai-c__cards--left .lp-mondai-c__card::after {
-  content: '';
-  position: absolute;
-  right: -13px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 12px solid var(--lp-color-main);
-}
-.lp-mondai-c__cards--right .lp-mondai-c__card::before {
-  content: '';
-  position: absolute;
-  left: -13px;
-  top: 50%;
-  transform: translateY(-50%);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 12px solid var(--lp-color-main);
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: start;
 }
 .lp-mondai-c__person {
-  width: 200px;
-  flex-shrink: 0;
+  position: sticky;
+  top: 24px;
 }
 .lp-mondai-c__person-frame {
-  width: 200px;
-  height: 280px;
-  border-radius: 100px 100px 40px 40px;
+  width: 220px;
+  height: 300px;
+  border-radius: 110px 110px 40px 40px;
   overflow: hidden;
   border: 4px solid var(--lp-color-main);
   background: #f0eefc;
@@ -115,35 +75,59 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, var(--lp-color-accent) 0%, var(--lp-color-main) 100%);
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
+}
+.lp-mondai-c__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-content: start;
+}
+.lp-mondai-c__card {
+  background: #fff;
+  border: 2px solid var(--lp-color-main);
+  border-radius: 12px;
+  padding: 16px 16px 16px 44px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--lp-color-text);
+  line-height: 1.6;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: relative;
+}
+.lp-mondai-c__card::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--lp-color-main);
+  opacity: 0.25;
+}
+.lp-mondai-c__card::after {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 21px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lp-color-main);
 }
 @media (max-width: 768px) {
   .lp-mondai--c { padding: 60px 16px; }
   .lp-mondai-c__layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
   }
-  .lp-mondai-c__person { width: 140px; margin: 0 auto; }
-  .lp-mondai-c__person-frame { width: 140px; height: 200px; }
-  .lp-mondai-c__cards--left .lp-mondai-c__card::after,
-  .lp-mondai-c__cards--right .lp-mondai-c__card::before { display: none; }
+  .lp-mondai-c__person {
+    position: static;
+    width: 160px;
+    margin: 0 auto 32px;
+  }
+  .lp-mondai-c__person-frame { width: 160px; height: 220px; }
+  .lp-mondai-c__cards { grid-template-columns: 1fr; }
 }
 </style>
-
-<script>
-(function() {
-  const section = document.currentScript.closest('section') || document.querySelector('.lp-mondai--c:last-of-type');
-  if (!section) return;
-  const items = Array.from(section.querySelectorAll('.lp-mondai-c__item-raw')).map(el => el.textContent.trim());
-  const leftEl  = section.querySelector('.lp-mondai-c__cards--left');
-  const rightEl = section.querySelector('.lp-mondai-c__cards--right');
-  if (!leftEl || !rightEl) return;
-  items.forEach((text, i) => {
-    const card = document.createElement('div');
-    card.className = 'lp-mondai-c__card';
-    card.textContent = text;
-    (i % 2 === 0 ? leftEl : rightEl).appendChild(card);
-  });
-})();
-</script>

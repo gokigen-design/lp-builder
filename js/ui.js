@@ -502,7 +502,7 @@ const UI = {
         const overlay = document.createElement('div');
         overlay.className = 'lp-img-overlay';
         overlay.innerHTML = `<span>${currentContent[key] ? '画像を変更' : '画像を追加'}</span>`;
-        el.style.position = el.style.position || 'relative';
+        // positionは既存CSSに任せる（上書きするとposition:absoluteのbg要素が崩れる）
         el.appendChild(overlay);
       }
       el.addEventListener('click', (e) => {
