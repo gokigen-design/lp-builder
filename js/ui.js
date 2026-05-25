@@ -276,8 +276,12 @@ const UI = {
       const card = document.createElement('div');
       card.className = 'design-card' + (key === chosen ? ' selected' : '');
       card.dataset.design = key;
+      const thumbKey = `${type}-${key}`;
+      const thumbSvg = (typeof DESIGN_THUMBS !== 'undefined' && DESIGN_THUMBS[thumbKey])
+        ? DESIGN_THUMBS[thumbKey]
+        : `<span style="font-size:13px;color:#94a3b8;">${design.label}</span>`;
       card.innerHTML = `
-        <div class="design-card-preview">${design.label}</div>
+        <div class="design-card-preview">${thumbSvg}</div>
         <div class="design-card-info">
           <h4>${design.label}</h4>
           <p>${design.description}</p>
@@ -403,10 +407,19 @@ const UI = {
       return `href="${val}" data-lp-url="${key}"`;
     });
 
-    // --- src属性内の画像トークン ---
-    html = html.replace(/src=["']\{\{(\w+)\}\}["']/g, (match, key) => {
+    // --- src属性内の画像トークン（imageフィールドは <img> 全体を編集可能divに差し替え）---
+    html = html.replace(/<img([^>]*?)src=["']\{\{(\w+)\}\}["']([^>]*?)>/g, (match, before, key, after) => {
+      const field = fieldMap[key];
+      if (field?.type === 'image') {
+        const val = currentContent[key] || '';
+        const imgHtml = val
+          ? `<img src="${val}" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">`
+          : '';
+        return `<div class="lp-img-editable" data-lp-image="${key}" data-value="${val}" style="width:100%;height:100%;">${imgHtml}<span class="lp-img-add-label"${val ? ' style="display:none"' : ''}>画像を追加</span><div class="lp-img-overlay"><span>${val ? '画像を変更' : '画像を追加'}</span></div></div>`;
+      }
+      // 画像フィールドでない src はそのまま置換
       const val = currentContent[key] || '';
-      return `src="${val}" data-lp-image="${key}"`;
+      return `<img${before}src="${val}" data-lp-image="${key}"${after}>`;
     });
 
     // --- 残りのテキストトークン ---
