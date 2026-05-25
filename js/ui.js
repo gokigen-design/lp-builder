@@ -329,7 +329,34 @@ const UI = {
         while (items.length < min) items.push(itemsField.subfields ? {} : '');
 
         const rows = items.map((item, idx) => {
-          let row = itemTpl.replace(/\{\{(\w+)\}\}/g, (m, key) => {
+          let row = itemTpl;
+
+          // Pass 1: Replace attribute tokens (except src) with plain text values
+          row = row.replace(/(\w+)="([^"]*?)\{\{(\w+)\}\}([^"]*?)"/g, (m, attr, pre, key, post) => {
+            if (attr === 'src') return m; // handled in pass 2
+            const sf = itemsField.subfields?.find(s => s.key === key);
+            const val = typeof item === 'string' ? (key === 'text' ? item : '') : (item[key] || '');
+            const ph = sf?.placeholder || '';
+            return `${attr}="${pre}${val || ph}${post}"`;
+          });
+
+          // Pass 2: Replace <img src="{{key}}"> with clickable div for image fields
+          row = row.replace(/<img([^>]*)src=["']\{\{(\w+)\}\}["']([^>]*)>/g, (m, before, key, after) => {
+            const sf = itemsField.subfields?.find(s => s.key === key);
+            if (sf?.type === 'image') {
+              const val = typeof item === 'string' ? '' : (item[key] || '');
+              const imgHtml = val ? `<img src="${val}" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">` : '';
+              return `<div class="lp-img-editable" data-item="${idx}" data-lp-field="${key}" data-lp-image="${key}" data-value="${val}" style="width:100%;height:100%;">
+                ${imgHtml}
+                <span class="lp-img-add-label" style="${val ? 'display:none' : ''}">画像を追加</span>
+                <div class="lp-img-overlay"><span>${val ? '画像を変更' : '画像を追加'}</span></div>
+              </div>`;
+            }
+            return m;
+          });
+
+          // Pass 3: Replace remaining text content {{key}} tokens with contenteditable spans
+          row = row.replace(/\{\{(\w+)\}\}/g, (m, key) => {
             const sf = itemsField.subfields?.find(s => s.key === key);
             if (!sf) {
               // シンプルテキスト（mondai）
@@ -338,8 +365,13 @@ const UI = {
               return `<span class="lp-editable" contenteditable="true" data-item="${idx}" data-lp-field="text" data-placeholder="${ph}">${val}</span>`;
             }
             if (sf.type === 'image') {
-              const val = item[key] || '';
-              return `<span class="lp-img-chip" data-item="${idx}" data-lp-field="${key}" data-value="${val}">${val ? '<img src="'+val+'" style="width:48px;height:48px;object-fit:cover;border-radius:4px;">' : '画像追加'}</span>`;
+              // Fallback for image tokens not in src="" — create editable div
+              const val = typeof item === 'string' ? '' : (item[key] || '');
+              return `<div class="lp-img-editable" data-item="${idx}" data-lp-field="${key}" data-lp-image="${key}" data-value="${val}">
+                ${val ? `<img src="${val}" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">` : ''}
+                <span class="lp-img-add-label">画像を追加</span>
+                <div class="lp-img-overlay"><span>${val ? '画像を変更' : '画像を追加'}</span></div>
+              </div>`;
             }
             const val = item[key] || '';
             const ph = sf.placeholder || '';
@@ -347,6 +379,7 @@ const UI = {
             const tag = isMulti ? 'div' : 'span';
             return `<${tag} class="lp-editable${isMulti ? ' lp-editable--block' : ''}" contenteditable="true" data-item="${idx}" data-lp-field="${key}" data-placeholder="${ph}">${val}</${tag}>`;
           });
+
           return `<div class="lp-item-wrap" data-item-idx="${idx}">${row}<button class="lp-remove-item" data-idx="${idx}" title="この項目を削除">×</button></div>`;
         }).join('');
 
@@ -468,11 +501,21 @@ const UI = {
           reader.onload = (re) => {
             UI._resizeImageDataUrl(re.target.result, 1200, (dataUrl) => {
               el.dataset.value = dataUrl;
-              // imgタグの場合
-              const img = el.tagName === 'IMG' ? el : el.querySelector('img');
-              if (img) { img.src = dataUrl; }
-              // background-imageの場合
-              if (el.style.backgroundImage !== undefined && el.dataset.lpImage) {
+              // div.lp-img-editable の場合（アイテム内画像）
+              if (el.classList.contains('lp-img-editable')) {
+                let img = el.querySelector('img');
+                if (!img) {
+                  img = document.createElement('img');
+                  img.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;';
+                  el.prepend(img);
+                }
+                img.src = dataUrl;
+                const addLabel = el.querySelector('.lp-img-add-label');
+                if (addLabel) addLabel.style.display = 'none';
+              } else if (el.tagName === 'IMG') {
+                el.src = dataUrl;
+              } else if (el.style.backgroundImage !== undefined) {
+                // background-imageの場合
                 const oldStyle = el.getAttribute('style') || '';
                 const newStyle = oldStyle.replace(/url\([^)]*\)/, `url('${dataUrl}')`);
                 el.setAttribute('style', newStyle || `background-image:url('${dataUrl}')`);
@@ -604,8 +647,8 @@ const UI = {
             const item = {};
             field.subfields.forEach(sf => {
               if (sf.type === 'image') {
-                const chip = row.querySelector(`.lp-img-chip[data-lp-field="${sf.key}"]`);
-                item[sf.key] = chip?.dataset.value || chip?.querySelector('img')?.src || '';
+                const el = row.querySelector(`[data-lp-field="${sf.key}"][data-lp-image]`);
+                item[sf.key] = el?.dataset.value || '';
               } else {
                 const el = row.querySelector(`[contenteditable][data-lp-field="${sf.key}"]`);
                 item[sf.key] = el?.textContent?.trim() || '';
